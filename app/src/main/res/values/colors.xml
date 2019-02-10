@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorRed">#B01C1C</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorGreen">#1F8D15</color>
-    <color name="colorBlue">#1455CE</color>
+    <color name="colorGreen">#E790DB89</color>
+    <color name="colorBlue">#E98FABDF</color>
+    <color name="colorPink">#DFD59292</color>
 </resources>

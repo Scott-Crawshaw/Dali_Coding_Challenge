@@ -18,7 +18,9 @@ import org.json.JSONArray;
 public class PersonInfo extends AppCompatActivity implements OnMapReadyCallback {
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
     private MapView map;
-    private double[] coords = new double[2];
+    private String json;
+    private int index;
+    private LatLng coords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,10 @@ public class PersonInfo extends AppCompatActivity implements OnMapReadyCallback 
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
         }
 
-        String name = getIntent().getStringExtra("name");
-        String json = getIntent().getStringExtra("name");
-        getSupportActionBar().setTitle(name);
+        index = getIntent().getIntExtra("index", 0);
+        json = getIntent().getStringExtra("json");
+
+        getSupportActionBar().setTitle(getName(index));
 
         map = findViewById(R.id.mapView);
         map.onCreate(mapViewBundle);
@@ -40,65 +43,60 @@ public class PersonInfo extends AppCompatActivity implements OnMapReadyCallback 
         //load in image
         ImageView picture = findViewById(R.id.imageView);
 
-        String imageURL = getImageUrl(json, name);
+        String imageURL = getImageUrl(index);
         if (imageURL != null) {
-            Picasso.get().load(getImageUrl(json, name)).into(picture);
+            Picasso.get().load(imageURL).into(picture);
         }
 
         //load in message
         TextView message = findViewById(R.id.textView);
-        message.setText(getMessage(json, name));
+        message.setText(getMessage(index));
 
         //establish coords for later use
-        coords = getCoords(json, name);
+        setCoords(index);
     }
 
-    public String getImageUrl(String json, String name) {
+    public String getName(int index) {
         try {
-            JSONArray array = new JSONArray(getIntent().getStringExtra("json"));
-            for (int i = 0; i < array.length(); i++) {
-                if (array.getJSONObject(i).getString("name").equals(name)) {
-                    return ("https://raw.githubusercontent.com/dali-lab/mappy/gh-pages/" + array.getJSONObject(i).getString("iconUrl"));
-                }
-            }
+            JSONArray array = new JSONArray(json);
+            return (array.getJSONObject(index).getString("name"));
         } catch (Exception e) {
-            return (null);
-        }
-        return (null);
-    }
-
-    public String getMessage(String json, String name) {
-        try {
-            JSONArray array = new JSONArray(getIntent().getStringExtra("json"));
-            for (int i = 0; i < array.length(); i++) {
-                if (array.getJSONObject(i).getString("name").equals(name)) {
-                    return (array.getJSONObject(i).getString("message"));
-                }
-            }
-        } catch (Exception e) {
-            return ("");
         }
         return ("");
     }
 
-    public double[] getCoords(String json, String name) {
+    public String getImageUrl(int index) {
         try {
-            JSONArray array = new JSONArray(getIntent().getStringExtra("json"));
-            for (int i = 0; i < array.length(); i++) {
-                if (array.getJSONObject(i).getString("name").equals(name)) {
-                    double lat = array.getJSONObject(i).getJSONArray("lat_long").getDouble(0);
-                    double lng = array.getJSONObject(i).getJSONArray("lat_long").getDouble(1);
-                    double[] hometown = {lat, lng};
-                    return (hometown);
-                }
-            }
+            JSONArray array = new JSONArray(json);
+            return ("https://raw.githubusercontent.com/dali-lab/mappy/gh-pages/" + array.getJSONObject(index).getString("iconUrl"));
         } catch (Exception e) {
-            double[] dartmouth = {43.7044, 72.2887};
-            return (dartmouth);
         }
-        double[] dartmouth = {43.7044, 72.2887};
-        return (dartmouth);
+        return (null);
     }
+
+    public String getMessage(int index) {
+        try {
+            JSONArray array = new JSONArray(json);
+            return (array.getJSONObject(index).getString("message"));
+        } catch (Exception e) {
+        }
+        return ("");
+    }
+
+    public void setCoords(int index) {
+        try {
+            JSONArray array = new JSONArray(json);
+            double lat = array.getJSONObject(index).getJSONArray("lat_long").getDouble(0);
+            double lng = array.getJSONObject(index).getJSONArray("lat_long").getDouble(1);
+            coords = new LatLng(lat, lng);
+        } catch (Exception e) {
+            coords = new LatLng(43.7044, -72.2887);
+        }
+
+    }
+
+
+    /* BELOW ARE REQUIRED METHODS FOR THE IMPLEMENTED CLASS*/
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -150,11 +148,9 @@ public class PersonInfo extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     public void onMapReady(GoogleMap gmap) {
-        LatLng ny = new LatLng(coords[0], coords[1]);
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(ny));
+        gmap.moveCamera(CameraUpdateFactory.newLatLng(coords));
         MarkerOptions marker = new MarkerOptions();
-        LatLng latLng = new LatLng(coords[0], coords[1]);
-        marker.position(latLng);
+        marker.position(coords);
         gmap.addMarker(marker);
     }
 }

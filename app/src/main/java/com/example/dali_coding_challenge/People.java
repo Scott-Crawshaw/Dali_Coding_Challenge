@@ -26,10 +26,11 @@ public class People extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people);
-        getSupportActionBar().setTitle("People");
-        //get the names to populate the listview
-        ArrayList<String> names = getNames();
+        getSupportActionBar().setTitle("Names");
+        char term = getIntent().getCharExtra("term", 'a');
 
+        //get the names to populate the listview
+        ArrayList<String> names = getNames(term);
         ListView people_list = findViewById(R.id.list);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, names);
         people_list.setAdapter(adapter);
@@ -37,11 +38,10 @@ public class People extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ListView people_list = findViewById(R.id.list);
-                String personName = people_list.getItemAtPosition(position).toString();
 
-                //send person name to info activity
+                //send person index to info activity
                 Bundle bundle = new Bundle();
-                bundle.putString("name", personName);
+                bundle.putInt("index", position);
                 bundle.putString("json", json_string);
 
                 Intent intent = new Intent(getApplicationContext(), PersonInfo.class);
@@ -53,7 +53,7 @@ public class People extends AppCompatActivity {
     }
 
 
-    private ArrayList<String> getNames() {
+    private ArrayList<String> getNames(char term) {
         json_string = "";
         //Allow for non-async connection, which is acceptable in this context as the list is useless without data
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -80,16 +80,24 @@ public class People extends AppCompatActivity {
             return (invalid);
         }
 
-        return (parseNames(json_string));
+        return (parseNames(json_string, term));
 
     }
 
-    private ArrayList<String> parseNames(String json) {
+    private ArrayList<String> parseNames(String json, char term) {
         ArrayList<String> names = new ArrayList<String>();
         try {
             JSONArray obj = new JSONArray(json);
             for (int i = 0; i < obj.length(); i++) {
-                names.add(obj.getJSONObject(i).getString("name"));
+                JSONArray terms = obj.getJSONObject(i).getJSONArray("terms_on");
+                for (int x = 0; x < terms.length(); x++) {
+                    String curr_term = terms.getString(x);
+                    char curr_term_char = curr_term.charAt(curr_term.length() - 1);
+                    if (curr_term_char == term || term == 'a') {
+                        names.add(obj.getJSONObject(i).getString("name"));
+                        break;
+                    }
+                }
             }
         } catch (Exception e) {
             //send back error message to populate list view

@@ -4,45 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Annual">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView12"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:background="@color/colorPink"
+        android:layout_height="180dp"
+        android:background="@drawable/leaves"
         android:clickable="true"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:onClick="nav_to_people"
-        android:text="Names"
+        android:text="Fall"
         android:textColor="@color/colorWhite"
         android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3" />
+        app:layout_constraintBottom_toTopOf="@+id/textView13" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textView13"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:background="@color/colorGreen"
+        android:layout_height="180dp"
+        android:background="@drawable/snowflakes"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:onClick="nav_to_hometowns"
-        android:text="Geography"
+        android:text="Winter"
         android:textColor="@color/colorWhite"
         android:textSize="50sp"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView14"
         android:layout_width="match_parent"
-        android:layout_height="255dp"
-        android:background="@color/colorBlue"
+        android:layout_height="180dp"
+        android:background="@drawable/spring"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:onClick="nav_to_participation"
-        android:text="Terms"
+        android:text="Spring"
         android:textColor="@color/colorWhite"
         android:textSize="50sp"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:background="@drawable/summer"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:onClick="nav_to_participation"
+        android:text="Summer"
+        android:textColor="@color/colorWhite"
+        android:textSize="50sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
 </android.support.constraint.ConstraintLayout>

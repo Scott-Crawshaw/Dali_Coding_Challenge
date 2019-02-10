@@ -15,17 +15,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nav_to_people(View view) {
+        Bundle bundle = new Bundle();
+        //show names for all on terms
+        bundle.putChar("term", 'a');
         Intent intent = new Intent(this, People.class);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
     public void nav_to_hometowns(View view) {
-        Intent intent = new Intent(this, People.class);
+        Intent intent = new Intent(this, Hometowns.class);
         startActivity(intent);
     }
 
     public void nav_to_participation(View view) {
-        Intent intent = new Intent(this, People.class);
+        Intent intent = new Intent(this, Annual.class);
         startActivity(intent);
     }
 }
