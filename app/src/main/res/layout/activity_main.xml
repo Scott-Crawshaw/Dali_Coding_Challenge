@@ -4,4 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"/>
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="@color/colorRed"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="People"
+        android:textColor="@color/colorWhite"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="@color/colorGreen"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="Hometowns"
+        android:textColor="@color/colorWhite"
+        android:textSize="50sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="255dp"
+        android:background="@color/colorBlue"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="Annual Outlook"
+        android:textColor="@color/colorWhite"
+        android:textSize="50sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        />
+</android.support.constraint.ConstraintLayout>
