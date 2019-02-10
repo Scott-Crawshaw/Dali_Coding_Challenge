@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public class People extends AppCompatActivity {
 
+    private String json_string;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,7 @@ public class People extends AppCompatActivity {
                 //send person name to info activity
                 Bundle bundle = new Bundle();
                 bundle.putString("name", personName);
+                bundle.putString("json", json_string);
 
                 Intent intent = new Intent(getApplicationContext(), PersonInfo.class);
                 intent.putExtras(bundle);
@@ -52,8 +54,7 @@ public class People extends AppCompatActivity {
 
 
     private ArrayList<String> getNames() {
-        String json_string = "";
-
+        json_string = "";
         //Allow for non-async connection, which is acceptable in this context as the list is useless without data
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
