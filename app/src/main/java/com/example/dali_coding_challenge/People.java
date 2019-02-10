@@ -26,7 +26,7 @@ public class People extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people);
-
+        getSupportActionBar().setTitle("People");
         //get the names to populate the listview
         ArrayList<String> names = getNames();
 
