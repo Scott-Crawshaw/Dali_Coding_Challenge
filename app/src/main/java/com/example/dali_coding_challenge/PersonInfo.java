@@ -40,7 +40,7 @@ public class PersonInfo extends AppCompatActivity implements OnMapReadyCallback 
         map.onCreate(mapViewBundle);
         map.getMapAsync(this);
 
-        //load in image
+        //load image into image view using Picasso
         ImageView picture = findViewById(R.id.imageView);
 
         String imageURL = getImageUrl(index);
@@ -52,11 +52,12 @@ public class PersonInfo extends AppCompatActivity implements OnMapReadyCallback 
         TextView message = findViewById(R.id.textView);
         message.setText(getMessage(index));
 
-        //establish coords for later use
+        //establish coordinates for later use
         setCoords(index);
     }
 
     public String getName(int index) {
+        //returns the name of the person at a given index in the JSONArray
         try {
             JSONArray array = new JSONArray(json);
             return (array.getJSONObject(index).getString("name"));
@@ -66,6 +67,7 @@ public class PersonInfo extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     public String getImageUrl(int index) {
+        //returns the iconUrl of the person at a given index in the JSONArray
         try {
             JSONArray array = new JSONArray(json);
             return ("https://raw.githubusercontent.com/dali-lab/mappy/gh-pages/" + array.getJSONObject(index).getString("iconUrl"));
@@ -75,6 +77,7 @@ public class PersonInfo extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     public String getMessage(int index) {
+        //returns the message of the person at a given index in the JSONArray
         try {
             JSONArray array = new JSONArray(json);
             return (array.getJSONObject(index).getString("message"));
@@ -84,6 +87,7 @@ public class PersonInfo extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     public void setCoords(int index) {
+        //gets the coordinates of the person at a given index in the JSONArray and sets them to a global variable
         try {
             JSONArray array = new JSONArray(json);
             double lat = array.getJSONObject(index).getJSONArray("lat_long").getDouble(0);
@@ -148,6 +152,7 @@ public class PersonInfo extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     public void onMapReady(GoogleMap gmap) {
+        //focus the camera on the hometown and drop a pin there
         gmap.moveCamera(CameraUpdateFactory.newLatLng(coords));
         MarkerOptions marker = new MarkerOptions();
         marker.position(coords);

@@ -15,20 +15,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nav_to_people(View view) {
-        Bundle bundle = new Bundle();
-        //show names for all on terms
-        bundle.putChar("term", 'a');
+        //navigate to the names list page
         Intent intent = new Intent(this, People.class);
-        intent.putExtras(bundle);
         startActivity(intent);
     }
 
     public void nav_to_hometowns(View view) {
+        //navigate to the geography page
         Intent intent = new Intent(this, Hometowns.class);
         startActivity(intent);
     }
 
-    public void nav_to_participation(View view) {
+    public void nav_to_terms(View view) {
+        //navigate to the terms page
         Intent intent = new Intent(this, Annual.class);
         startActivity(intent);
     }

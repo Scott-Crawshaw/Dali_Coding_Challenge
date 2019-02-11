@@ -27,9 +27,10 @@ public class People extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people);
         getSupportActionBar().setTitle("Names");
-        char term = getIntent().getCharExtra("term", 'a');
 
-        //get the names to populate the listview
+        char term = getIntent().getCharExtra("term", 'a'); //default to all terms
+
+        //get the names and populate the list view
         ArrayList<String> names = getNames(term);
         ListView people_list = findViewById(R.id.list);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, names);
@@ -55,6 +56,7 @@ public class People extends AppCompatActivity {
 
     private ArrayList<String> getNames(char term) {
         json_string = "";
+
         //Allow for non-async connection, which is acceptable in this context as the list is useless without data
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -74,7 +76,7 @@ public class People extends AppCompatActivity {
 
             urlConnection.disconnect();
         } catch (Exception e) {
-            //send back error message to populate list view
+            //send back error message that will populate list view
             ArrayList<String> invalid = new ArrayList<String>();
             invalid.add(e.toString());
             return (invalid);
@@ -85,6 +87,7 @@ public class People extends AppCompatActivity {
     }
 
     private ArrayList<String> parseNames(String json, char term) {
+        //returns arraylist with all the relevant student names
         ArrayList<String> names = new ArrayList<String>();
         try {
             JSONArray obj = new JSONArray(json);

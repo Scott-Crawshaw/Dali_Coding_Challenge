@@ -38,20 +38,22 @@ public class Hometowns extends AppCompatActivity implements OnMapReadyCallback, 
         setContentView(R.layout.activity_hometowns);
         getSupportActionBar().setTitle("Geography");
 
+        getJsonString();
+
+        //initialize the map
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
         }
-
-        getJsonString();
-
         map = findViewById(R.id.mapView2);
         map.onCreate(mapViewBundle);
         map.getMapAsync(this);
     }
 
     private void getJsonString() {
+        //download json from members.json and save it in global variable
         json_string = "";
+
         //Allow for non-async connection, which is acceptable in this context as the map is useless without data
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -78,6 +80,7 @@ public class Hometowns extends AppCompatActivity implements OnMapReadyCallback, 
     }
 
     private ArrayList<String> parseNames() {
+        //returns an arraylist with all the student names
         ArrayList<String> names = new ArrayList<String>();
         try {
             JSONArray obj = new JSONArray(json_string);
@@ -95,6 +98,7 @@ public class Hometowns extends AppCompatActivity implements OnMapReadyCallback, 
     }
 
     private ArrayList<LatLng> parseCoords() {
+        //returns an arraylist of LatLng objects for all the student's hometowns
         ArrayList<LatLng> coords = new ArrayList<LatLng>();
 
         try {
@@ -115,7 +119,7 @@ public class Hometowns extends AppCompatActivity implements OnMapReadyCallback, 
 
     }
 
-    /* BELOW ARE REQUIRED METHODS FOR THE IMPLEMENTED CLASSES*/
+    /* BELOW ARE REQUIRED METHODS FOR THE IMPLEMENTED CLASSES */
 
     @Override
     public void onInfoWindowClick(Marker marker) {
@@ -191,12 +195,14 @@ public class Hometowns extends AppCompatActivity implements OnMapReadyCallback, 
             marker.position(coords.get(i));
             marker.title(names.get(i));
 
-            //keep track of accosiations between markers and people indexes
+            //keep track of associations between markers and people indexes
             String id = gmap.addMarker(marker).getId();
             markerTags.put(id, i);
         }
 
         gmap.setOnInfoWindowClickListener(this);
+
+        //set camera initial position to Dartmouth
         LatLng dartmouth = new LatLng(43.7044, -72.2887);
         gmap.moveCamera(CameraUpdateFactory.newLatLng(dartmouth));
     }

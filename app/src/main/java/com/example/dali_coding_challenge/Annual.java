@@ -16,9 +16,10 @@ public class Annual extends AppCompatActivity {
 
     }
 
+    /* The following functions all start a names list activity with only names for the appropriate term */
+
     public void fall(View view) {
         Bundle bundle = new Bundle();
-        //show names for all on terms
         bundle.putChar("term", 'F');
         Intent intent = new Intent(this, People.class);
         intent.putExtras(bundle);
@@ -27,7 +28,6 @@ public class Annual extends AppCompatActivity {
 
     public void winter(View view) {
         Bundle bundle = new Bundle();
-        //show names for all on terms
         bundle.putChar("term", 'W');
         Intent intent = new Intent(this, People.class);
         intent.putExtras(bundle);
@@ -36,7 +36,6 @@ public class Annual extends AppCompatActivity {
 
     public void spring(View view) {
         Bundle bundle = new Bundle();
-        //show names for all on terms
         bundle.putChar("term", 'S');
         Intent intent = new Intent(this, People.class);
         intent.putExtras(bundle);
@@ -45,7 +44,6 @@ public class Annual extends AppCompatActivity {
 
     public void summer(View view) {
         Bundle bundle = new Bundle();
-        //show names for all on terms
         bundle.putChar("term", 'X');
         Intent intent = new Intent(this, People.class);
         intent.putExtras(bundle);

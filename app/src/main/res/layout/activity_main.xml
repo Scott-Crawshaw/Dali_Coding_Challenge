@@ -40,7 +40,7 @@
         android:background="@color/colorBlue"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
-        android:onClick="nav_to_participation"
+        android:onClick="nav_to_terms"
         android:text="Terms"
         android:textColor="@color/colorWhite"
         android:textSize="50sp"
