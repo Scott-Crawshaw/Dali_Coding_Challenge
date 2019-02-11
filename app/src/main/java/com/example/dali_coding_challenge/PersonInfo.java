@@ -1,7 +1,10 @@
 package com.example.dali_coding_challenge;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +24,7 @@ public class PersonInfo extends AppCompatActivity implements OnMapReadyCallback 
     private String json;
     private int index;
     private LatLng coords;
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,41 +56,77 @@ public class PersonInfo extends AppCompatActivity implements OnMapReadyCallback 
         TextView message = findViewById(R.id.textView);
         message.setText(getMessage(index));
 
-        //establish coordinates for later use
+        //establish coordinates for callback use
         setCoords(index);
+
+        //establish URL for callback use
+        setURL(index);
     }
 
-    public String getName(int index) {
+    public void onClick(View view) {
+        //navigate to person's URL if it exists
+        if (url != null) {
+            if (url.substring(0, 2).equals("//")) {
+                url = "https://" + url.substring(2);
+            } else if (!url.contains("https://")) {
+                url = "https://raw.githubusercontent.com/dali-lab/mappy/gh-pages/" + url;
+            }
+
+            try {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            } catch (Exception e) {
+
+            }
+
+        }
+
+    }
+
+    private void setURL(int index) {
+        //gets the url of the person at a given index in the JSONArray
+        try {
+            JSONArray array = new JSONArray(json);
+            url = array.getJSONObject(index).getString("url");
+        } catch (Exception e) {
+            url = null;
+        }
+    }
+
+    private String getName(int index) {
         //returns the name of the person at a given index in the JSONArray
         try {
             JSONArray array = new JSONArray(json);
             return (array.getJSONObject(index).getString("name"));
         } catch (Exception e) {
+            return ("");
         }
-        return ("");
+
     }
 
-    public String getImageUrl(int index) {
+    private String getImageUrl(int index) {
         //returns the iconUrl of the person at a given index in the JSONArray
         try {
             JSONArray array = new JSONArray(json);
             return ("https://raw.githubusercontent.com/dali-lab/mappy/gh-pages/" + array.getJSONObject(index).getString("iconUrl"));
         } catch (Exception e) {
+            return (null);
         }
-        return (null);
+
     }
 
-    public String getMessage(int index) {
+    private String getMessage(int index) {
         //returns the message of the person at a given index in the JSONArray
         try {
             JSONArray array = new JSONArray(json);
             return (array.getJSONObject(index).getString("message"));
         } catch (Exception e) {
+            return ("");
         }
-        return ("");
     }
 
-    public void setCoords(int index) {
+    private void setCoords(int index) {
         //gets the coordinates of the person at a given index in the JSONArray and sets them to a global variable
         try {
             JSONArray array = new JSONArray(json);
