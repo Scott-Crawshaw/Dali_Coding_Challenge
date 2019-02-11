@@ -31,7 +31,7 @@
         android:inputType="textMultiLine"
         android:maxLines="3"
         android:onClick="onClick"
-        android:text="Message ashdsha dsahdhsadh sadbhsad dsah "
+        android:text="Message"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
